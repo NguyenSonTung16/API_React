@@ -1,38 +1,287 @@
-.App {
-  text-align: center;
+:root {
+  --modal-expand-duration: 520ms;
+  --modal-easing: cubic-bezier(.2,.9,.2,1);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Photo Detail Modal Animations */
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+@keyframes slideUpPanel {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+@keyframes scaleInImage {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
-.App-link {
-  color: #61dafb;
+@keyframes expandPanel {
+  from { transform: scaleY(0.92) translateY(2px); opacity: 0; }
+  to { transform: scaleY(1) translateY(0); opacity: 1; }
 }
 
-@keyframes App-logo-spin {
+@keyframes stretchImage {
+  from { opacity: 0; transform: scaleX(0.98) scaleY(0.6); }
+  to { opacity: 1; transform: scaleX(1) scaleY(1); }
+}
+
+@keyframes spinLoader {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInImage {
+  from { opacity: 0; filter: brightness(0.8); }
+  to { opacity: 1; filter: brightness(1); }
+}
+
+@keyframes slideDownImage {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(-60px) scaleX(0.95);
+    clip-path: inset(0 0 100% 0);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0) scaleX(1);
+    clip-path: inset(0 0 0 0);
   }
 }
+
+@keyframes expandContainerWithImage {
+  from {
+    transform: scaleY(0.92) translateY(2px);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulseLoader {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Modal overlay with fade in animation */
+.photo-detail-modal-overlay {
+  animation: fadeInOverlay 0.3s ease-out;
+}
+
+/* Modal container with slide up animation */
+.photo-detail-modal-container {
+  animation: slideUpPanel 0.4s ease-out;
+}
+
+/* Image loading state with synchronized animation */
+.photo-detail-image {
+  transition: transform var(--modal-expand-duration) var(--modal-easing), opacity var(--modal-expand-duration) var(--modal-easing);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.photo-detail-image.loading {
+  opacity: 0;
+  transform: scaleX(0.98) scaleY(0.6);
+}
+
+.photo-detail-image.loaded {
+  animation: stretchImage var(--modal-expand-duration) var(--modal-easing) forwards,
+             fadeInImage var(--modal-expand-duration) var(--modal-easing) forwards,
+             slideDownImage var(--modal-expand-duration) var(--modal-easing) forwards;
+}
+
+/* Ensure modal images do not have rounded corners anywhere */
+.photo-detail-image,
+.photo-detail-image img,
+.photo-detail-image-wrapper,
+.photo-detail-image-wrapper img,
+.image-container img {
+  border-radius: 0 !important;
+}
+
+/* Image loading spinner */
+.image-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.image-loader-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  animation: spinLoader 1s linear infinite;
+}
+
+.image-loader-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  text-align: center;
+  margin-top: 12px;
+  animation: pulseLoader 1.5s ease-in-out infinite;
+}
+
+/* Image container wrapper for synchronized animation with panel */
+.image-container {
+  animation: slideDownImage var(--modal-expand-duration) var(--modal-easing) forwards;
+}
+
+/* Panel expansion synchronized with image animation */
+.photo-detail-panel {
+  transform-origin: top center;
+  will-change: transform, opacity;
+}
+
+.photo-detail-panel.panel-opening {
+  animation: expandContainerWithImage var(--modal-expand-duration) var(--modal-easing) forwards;
+}
+
+.photo-detail-panel.panel-open {
+  transform: scaleY(1) translateY(0);
+  opacity: 1;
+}
+
+.photo-detail-panel.panel-closed {
+  transform: scaleY(0.92) translateY(2px);
+  opacity: 0;
+}
+
+/* Mobile responsive styles for detail modal */
+@media (max-width: 768px) {
+  /* PhotoDetailModal in HomePage */
+  .photo-detail-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+  }
+
+  .photo-detail-modal-container {
+    position: relative !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    background: transparent !important;
+  }
+
+  .photo-detail-panel {
+    position: relative !important;
+    width: 100% !important;
+    /* Limit panel height so image can be centered within it */
+    max-height: 90vh !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    justify-content: flex-start !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    padding: 12px !important;
+    background: #ffffff !important;
+    color: #111 !important;
+    overflow: hidden !important;
+  }
+
+  .photo-detail-image-wrapper {
+    /* Make wrapper a normal block inside the panel so it participates in flex layout */
+    position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    background: transparent !important;
+    overflow: hidden !important;
+  }
+
+  .photo-detail-image {
+    position: relative !important;
+    width: auto !important;
+    max-width: 92% !important;
+    height: auto !important;
+    max-height: calc(90vh - 120px) !important; /* leave room for title/controls */
+    object-fit: contain !important;
+    display: block !important;
+    margin: 0 auto !important;
+  }
+
+  /* (desktop/home overlay style removed on mobile; info area displayed below image) */
+
+  .photo-detail-top {
+    position: static !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    background: transparent !important;
+    padding: 12px 16px !important;
+    overflow: visible !important;
+    z-index: auto !important;
+    border-radius: 0 !important;
+    display: block !important;
+    color: #111 !important;
+    flex-shrink: 0 !important; /* ensure info area doesn't collapse */
+  }
+
+  /* Image container should be a flexible area so image can center vertically inside the panel */
+  .image-container {
+    position: static !important;
+    width: 100% !important;
+    display: flex !important;
+    flex: 1 1 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 6vh 0 !important;
+    background: transparent !important;
+    overflow: hidden !important;
+  }
+  .photo-detail-author {
+    margin: 0 0 2px 0 !important;
+    color: #333 !important;
+    line-height: 1.1 !important;
+  }
+
+  .photo-detail-description {
+    font-size: 10px !important;
+    margin: 2px 0 0 0 !important;
+    color: #444 !important;
+    line-height: 1.2 !important;
+  }
+
+  .photo-detail-top-actions {
+    margin-top: 12px !important;
+  }
+
+  .action-btn {
+    font-size: 12px !important;
+    padding: 6px 12px !important;
+  }
+
+  /* PhotoDetailPage in detail route */
+  /* (image-container rules moved above to keep layout consistent) */
+}
+

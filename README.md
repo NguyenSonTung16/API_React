@@ -1,70 +1,148 @@
-# Getting Started with Create React App
+📷 React Picsum Photo Gallery
+Đây là một dự án React được xây dựng để hiển thị một thư viện ảnh sử dụng Lorem Picsum API. Ứng dụng cho phép người dùng xem một lưới ảnh, tự động tải thêm ảnh khi cuộn (infinite scroll), và xem thông tin chi tiết của từng ảnh.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+✨ Tính năng chính
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Hiển thị Lưới ảnh: Hiển thị danh sách ảnh dưới dạng lưới (grid) responsive, bao gồm ảnh thumbnail và tên tác giả.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Tải vô hạn (Infinite Scroll): Tự động tải và hiển thị thêm ảnh khi người dùng cuộn xuống cuối trang.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Chỉ báo (Indicators): Hiển thị chỉ báo loading khi đang tải ảnh mới và thông báo khi đã tải hết ảnh.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+Routing: Sử dụng React Router để điều hướng giữa trang danh sách và trang chi tiết.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Xem chi tiết: Cho phép người dùng nhấp vào một ảnh để điều hướng đến trang chi tiết (/photos/:id).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+Trang chi tiết: Hiển thị ảnh kích thước đầy đủ, tên tác giả, tiêu đề và mô tả (nếu có).
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Xử lý Lỗi/Loading: Quản lý các trạng thái loading và lỗi trong quá trình gọi API.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Responsive: Giao diện được thiết kế để hoạt động tốt trên cả máy tính và thiết bị di động.
 
-### Analyzing the Bundle Size
+🛠️ Công nghệ sử dụng
+React
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+React Router Dom: Dùng cho việc điều hướng và định tuyến trang.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Axios (hoặc Fetch API): Để thực hiện các yêu cầu HTTP đến API của Picsum.
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+CSS Framework:  (Tùy chọn: Tailwind CSS, Material UI, hoặc Bootstrap).
 
-### Deployment
+(Khuyến nghị) React Intersection Observer: Một thư viện/hook hữu ích để triển khai infinite scroll một cách hiệu quả.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+📂 Cấu trúc thư mục dự án
+Một cấu trúc thư mục được tổ chức tốt là rất quan trọng để quản lý code. Dưới đây là một cấu trúc gợi ý:
 
-### `npm run build` fails to minify
+Bash
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+/src
+|
+|-- /api
+|   |-- picsumApi.js       # (Chứa logic gọi API, vd: hàm fetchPhotos, fetchPhotoDetails)
+|
+|-- /components
+|   |-- /common            # (Các component chung: Loader, ErrorMessage, Button...)
+|   |   |-- Loader.js
+|   |   |-- ErrorMessage.js
+|   |-- /photos
+|   |   |-- PhotoGrid.js   # (Component chứa lưới ảnh)
+|   |   |-- PhotoItem.js   # (Component cho mỗi ảnh trong lưới)
+|
+|-- /hooks
+|   |-- useInfiniteScroll.js # ((Tùy chọn) Custom hook cho logic infinite scroll)
+|   |-- usePhotos.js         # (Custom hook để fetch và quản lý state ảnh)
+|
+|-- /pages
+|   |-- HomePage.js          # (Trang chủ, hiển thị PhotoGrid)
+|   |-- PhotoDetailPage.js   # (Trang chi tiết ảnh)
+|   |-- NotFoundPage.js      # (Trang 404)
+|
+|-- App.js                 # (Cấu hình React Router chính)
+|-- index.js
+|-- index.css              # (Styles global)
+
+⚙️ Luồng hoạt động (How it Works)
+1. Điều hướng (Routing)
+File App.js sẽ định nghĩa các tuyến đường (routes) chính bằng React Router.
+
+
+/ hoặc /photos: Render component HomePage.
+
+
+/photos/:id: Render component PhotoDetailPage.
+
+2. Trang chủ và Infinite Scroll (HomePage.js)
+Quản lý State: Trang này sử dụng useState (hoặc useReducer) để lưu trữ danh sách ảnh (photos), trang hiện tại (page), trạng thái tải (isLoading), và trạng thái còn ảnh để tải (hasMore).
+
+Fetch dữ liệu: Sử dụng useEffect để gọi API fetch ảnh cho trang đầu tiên khi component được mount.
+
+
+Triển khai Infinite Scroll:
+
+Cách tốt nhất là sử dụng IntersectionObserver API.
+
+Tạo một component "trigger" (thường là một <div> trống) ở dưới cùng của PhotoGrid.
+
+Sử dụng một custom hook (ví dụ: useInfiniteScroll) hoặc thư viện react-intersection-observer để theo dõi khi component "trigger" này xuất hiện trên màn hình.
+
+Khi nó xuất hiện và isLoading là false và hasMore là true, gọi hàm để fetch trang tiếp theo.
+
+Hàm fetch sẽ tăng số page, gọi API, và nối kết quả mới vào mảng photos hiện có.
+
+Nếu API trả về một mảng rỗng, set hasMore thành false để ngừng các lệnh gọi tiếp theo.
+
+
+Hiển thị: Render PhotoGrid (truyền photos làm prop) và Loader (nếu isLoading là true).
+
+3. Trang chi tiết (PhotoDetailPage.js)
+
+Lấy ID: Sử dụng hook useParams của React Router để lấy id từ URL.
+
+Fetch dữ liệu: Sử dụng useEffect để gọi API lấy thông tin chi tiết của ảnh (ví dụ: https://picsum.photos/id/{id}/info) ngay khi component được mount hoặc khi id thay đổi.
+
+
+Hiển thị: Hiển thị ảnh kích thước đầy đủ (dùng download_url từ API), tên tác giả, và các thông tin khác.
+
+4. Logic API (api/picsumApi.js)
+Tạo các hàm bất đồng bộ (async) để xử lý việc gọi API.
+
+
+fetchPhotos(page): Gọi https://picsum.photos/v2/list?page=${page}&limit=20 để lấy danh sách ảnh theo trang.
+
+fetchPhotoDetails(id): Gọi https://picsum.photos/id/${id}/info để lấy chi tiết một ảnh.
+
+Các hàm này nên xử lý try/catch để quản lý lỗi.
+
+🚀 Cài đặt và Chạy dự án
+Clone repository:
+
+Bash
+
+git clone <your-repo-url>
+cd <project-directory>
+Cài đặt dependencies:
+
+Bash
+
+npm install
+Chạy ứng dụng (development):
+
+Bash
+
+npm start
+Mở http://localhost:3000 để xem trong trình duyệt.
