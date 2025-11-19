@@ -1,11 +1,12 @@
+// Single photo card rendered inside the gallery grid.
 import React from 'react';
 
 /**
- * Component hiển thị một ảnh trong danh sách
- * @param {Object} photo - Thông tin ảnh
- * @param {number} photo.id - ID ảnh
- * @param {string} photo.author - Tên tác giả
- * @param {Function} onClick - Callback khi click ảnh
+* Component displays a photo in the list
+* @param {Object} photo - Photo information
+* @param {number} photo.id - Photo ID
+* @param {string} photo.author - Author name
+* @param {Function} onClick - Callback when clicking on photo
  */
 export default function PhotoItem({ photo, onClick }) {
   const thumb = `https://picsum.photos/id/${photo.id}/300/200`;

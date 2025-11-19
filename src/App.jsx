@@ -1,3 +1,4 @@
+// Top-level app component that wires up all React Router routes.
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx';

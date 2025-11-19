@@ -1,3 +1,4 @@
+// Hook that eagerly prefetches thumbnails and large images for smoother UX.
 import { useEffect, useRef } from 'react';
 import imageCacheService from '../services/imageCacheService';
 
@@ -21,7 +22,7 @@ export default function usePrefetchImages(photos, visibleRange = 5) {
       if (!prefetchedRef.current.has(photoKey)) {
         prefetchedRef.current.add(photoKey);
         const thumbUrl = `https://picsum.photos/id/${photo.id}/300/200`;
-        // Fetch và cache thumbnail
+        // Fetch and cache thumbnail  
         imageCacheService.fetchAndCache(thumbUrl).catch(() => {});
       }
     });
@@ -32,7 +33,7 @@ export default function usePrefetchImages(photos, visibleRange = 5) {
       const downloadKey = `download_${photo.id}`;
       if (!prefetchedRef.current.has(downloadKey)) {
         prefetchedRef.current.add(downloadKey);
-        // Fetch và cache full-size image
+        // Fetch and cache full-size image 
         imageCacheService.fetchAndCache(photo.download_url).catch(() => {});
       }
     });

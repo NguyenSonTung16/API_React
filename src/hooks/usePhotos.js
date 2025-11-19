@@ -1,3 +1,4 @@
+// Local hook that fetches paginated photo lists without context.
 import { useCallback, useEffect, useState } from 'react';
 import { fetchPhotos } from '../api/picsumApi';
 

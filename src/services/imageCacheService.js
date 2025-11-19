@@ -1,22 +1,23 @@
+// Service for caching fetched images in memory so previews load faster.
 /**
  * Image Cache Service
- * Lưu trữ ảnh đã fetch vào memory để tái sử dụng
- * Sử dụng Map để lưu URL → Blob dữ liệu
+ * Store fetched images in memory to reuse  
+ * Use Map to store URL → Blob data
  */
 
 class ImageCacheService {
   constructor() {
     this.cache = new Map();
-    this.maxSize = 50; // Tối đa 50 ảnh
+    this.maxSize = 50; // Maximum 50 images 
   }
 
   /**
-   * Fetch ảnh và lưu vào cache
-   * @param {string} url - URL ảnh
-   * @returns {Promise<string>} - Data URL có thể dùng trực tiếp trong <img src="">
+   * Fetch image and save to cache     
+   * @param {string} url - Image URL  
+   * @returns {Promise<string>} - Data URL that can be used directly in <img src="">  
    */
   async fetchAndCache(url) {
-    // Nếu đã có trong cache, trả về ngay
+    // If already in cache, return immediately  
     if (this.cache.has(url)) {
       return this.cache.get(url);
     }
@@ -26,17 +27,17 @@ class ImageCacheService {
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       
       const blob = await response.blob();
-      // Chuyển Blob thành Data URL
+      // Convert Blob to Data URL  
       const dataUrl = URL.createObjectURL(blob);
       
-      // Lưu vào cache
+      // Save to cache  
       this.cache.set(url, dataUrl);
       
-      // Nếu vượt quá maxSize, xóa ảnh cũ nhất
+      // If exceeds maxSize, delete oldest image  
       if (this.cache.size > this.maxSize) {
         const firstKey = this.cache.keys().next().value;
         const oldUrl = this.cache.get(firstKey);
-        URL.revokeObjectURL(oldUrl); // Giải phóng memory
+        URL.revokeObjectURL(oldUrl); // Release memory  
         this.cache.delete(firstKey);
       }
       
@@ -48,17 +49,17 @@ class ImageCacheService {
   }
 
   /**
-   * Lấy ảnh từ cache nếu có
-   * @param {string} url - URL ảnh
-   * @returns {string|null} - Data URL hoặc null nếu chưa cache
+   * Get image from cache if available  
+   * @param {string} url - Image URL  
+   * @returns {string|null} - Data URL or null if not cached   
    */
   getFromCache(url) {
     return this.cache.get(url) || null;
   }
 
   /**
-   * Xóa một ảnh khỏi cache
-   * @param {string} url - URL ảnh
+   * Remove image from cache  
+   * @param {string} url - Image URL  
    */
   remove(url) {
     const dataUrl = this.cache.get(url);
@@ -69,7 +70,7 @@ class ImageCacheService {
   }
 
   /**
-   * Xóa toàn bộ cache
+   * Clear the whole cache  
    */
   clear() {
     this.cache.forEach(dataUrl => {
@@ -79,7 +80,7 @@ class ImageCacheService {
   }
 
   /**
-   * Lấy kích thước cache hiện tại
+   * Get current cache size  
    * @returns {number}
    */
   size() {

@@ -1,3 +1,4 @@
+// Responsive grid layout showing all photo cards on the home page.
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import PhotoItem from './PhotoItem.jsx';
@@ -12,7 +13,7 @@ export default function PhotoGrid({ photos, onPhotoClick }) {
       ...photo,
       thumb: `https://picsum.photos/id/${photo.id}/300/200`
     };
-    // Lưu vị trí cuộn hiện tại trước khi chuyển trang
+    // Save current scroll position before changing page
     sessionStorage.setItem('scrollPosition', window.scrollY);
     onPhotoClick?.(photo.id, photoWithThumb);
     // Navigate to photo detail page with basic photo data in route state

@@ -1,3 +1,4 @@
+// Landing page that lists photos with infinite scroll and modal preview.
 import React, { useState } from 'react';
 import PhotoGrid from '../components/photos/PhotoGrid.jsx';
 import Loader from '../components/common/Loader.jsx';

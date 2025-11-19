@@ -1,3 +1,4 @@
+// Displays a reusable red error message block when text is provided.
 import React from 'react';
 
 export default function ErrorMessage({ message }) {

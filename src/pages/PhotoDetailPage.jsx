@@ -1,3 +1,4 @@
+// Standalone page that shows a single photo in a dedicated layout.
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { fetchPhotoDetails } from '../api/picsumApi';

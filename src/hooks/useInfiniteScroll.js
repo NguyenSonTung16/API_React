@@ -1,3 +1,4 @@
+// Hook exposing a ref that triggers when intersecting the viewport.
 import { useEffect, useRef } from 'react';
 
 export default function useInfiniteScroll(callback, options = {}) {

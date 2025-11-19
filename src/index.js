@@ -1,3 +1,4 @@
+// Entry point that mounts the React app with the Photos context provider.
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';

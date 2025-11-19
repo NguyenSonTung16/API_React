@@ -1,3 +1,4 @@
+// React context that stores the shared photo feed and pagination state.
 import React, { createContext, useContext, useCallback, useState } from 'react';
 import { fetchPhotos } from '../api/picsumApi';
 

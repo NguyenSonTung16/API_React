@@ -1,3 +1,4 @@
+// Simple text-based loading indicator shared across screens.
 import React from 'react';
 
 export default function Loader() {

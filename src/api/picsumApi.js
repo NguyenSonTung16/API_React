@@ -1,3 +1,4 @@
+// Small wrapper around the Picsum HTTP endpoints.
 const BASE = 'https://picsum.photos';
 
 export async function fetchPhotos(page = 1, limit = 20) {

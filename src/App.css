@@ -1,3 +1,4 @@
+/* Global styling & animations used across the Picsum gallery app */
 :root {
   --modal-expand-duration: 520ms;
   --modal-easing: cubic-bezier(.2,.9,.2,1);
@@ -103,6 +104,29 @@
 .photo-detail-image-wrapper img,
 .image-container img {
   border-radius: 0 !important;
+}
+
+/* Keep the wrapper relative so the skeleton can sit on top */
+.photo-detail-image-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+/* Simple skeleton placeholder while the image loads */
+.photo-detail-image-skeleton {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  animation: pulseLoader 1.2s ease-in-out infinite;
 }
 
 /* Image loading spinner */

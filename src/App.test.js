@@ -1,3 +1,4 @@
+// Basic CRA smoke test to ensure the app renders without crashing.
 import { render, screen } from '@testing-library/react';
 import App from './App';
 

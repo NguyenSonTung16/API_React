@@ -1,3 +1,4 @@
+// Hook that starts prefetching thumbnails when the user nears the list end.
 import { useCallback, useRef } from 'react';
 
 /**
